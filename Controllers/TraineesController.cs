@@ -51,7 +51,7 @@ namespace TraineeManagement.Controllers
             if (trainee == null)
                 return NotFound(new { message = "Trainee not found" });
 
-            return Ok(trainee);
+            return Ok(_service.GetResponseData(trainee));
         }
 
         [HttpDelete("{id:int}")]
