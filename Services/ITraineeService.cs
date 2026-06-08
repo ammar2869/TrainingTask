@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using TraineeManagement.Models;
 using TraineeManagement.Models.DTOs;
 
@@ -5,11 +6,12 @@ namespace TraineeManagement.Services
 {
     public interface ITraineeService
     {
-        List<Trainee> GetAll();
-        Trainee? GetById(int id);
-        Trainee Create(CreateTraineeRequest dto);
-        Trainee? Update(int id, UpdateTraineeRequest dto);
-        bool Delete(int id);
+        // Task<List<Trainee>> GetAll();
+        Task<List<Trainee>> GetAll(string? search = null);
+        Task<Trainee?> GetById(int id);
+        Task<Trainee> Create(CreateTraineeRequest dto);
+        Task<Trainee?> Update(int id, UpdateTraineeRequest dto);
+        Task<bool> Delete(int id);
         TraineeResponse GetResponseData(Trainee trainee);
     }
 }

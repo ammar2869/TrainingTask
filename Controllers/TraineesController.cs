@@ -17,15 +17,17 @@ namespace TraineeManagement.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetAll([FromQuery] string? search)
         {
-            return Ok(_service.GetAll());
+            List<Trainee> trainees = await _service.GetAll(search);
+
+            return Ok(trainees);
         }
 
         [HttpGet("{id:int}")]
-        public IActionResult GetById(int id)
+        public async Task<IActionResult> GetById(int id)
         {
-            var trainee = _service.GetById(id);
+            Trainee? trainee = await _service.GetById(id);
 
             if (trainee == null)
                 return NotFound(new { message = "Trainee not found" });
@@ -34,9 +36,9 @@ namespace TraineeManagement.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create([FromBody] CreateTraineeRequest dto)
+        public async Task<IActionResult> Create([FromBody] CreateTraineeRequest dto)
         {
-            var newTrainee = _service.Create(dto);
+            Trainee newTrainee = await _service.Create(dto);
 
             return CreatedAtAction(nameof(GetById),
                 new { id = newTrainee.Id },
@@ -44,9 +46,9 @@ namespace TraineeManagement.Controllers
         }
 
         [HttpPut("{id:int}")]
-        public IActionResult Update(int id, [FromBody] UpdateTraineeRequest dto)
+        public async Task<IActionResult> Update(int id, [FromBody] UpdateTraineeRequest dto)
         {
-            var trainee = _service.Update(id, dto);
+            Trainee? trainee = await _service.Update(id, dto);
 
             if (trainee == null)
                 return NotFound(new { message = "Trainee not found" });
@@ -55,9 +57,9 @@ namespace TraineeManagement.Controllers
         }
 
         [HttpDelete("{id:int}")]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            var deleted = _service.Delete(id);
+            bool deleted = await _service.Delete(id);
 
             if (!deleted)
                 return NotFound(new { message = "Trainee not found" });

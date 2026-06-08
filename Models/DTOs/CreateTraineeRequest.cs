@@ -7,7 +7,7 @@ namespace  TraineeManagement.Models.DTOs
         [Required(ErrorMessage ="First Name is required")]
         [MaxLength(50)]
         public string FirstName { get; set; }
-        [Required(ErrorMessage ="First Name is required")]
+        [Required(ErrorMessage ="Last Name is required")]
         [MaxLength(50)]
         public string LastName { get; set; }
         [Required(ErrorMessage ="Email Address is required")]
