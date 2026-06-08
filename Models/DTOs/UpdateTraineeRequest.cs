@@ -1,23 +1,24 @@
 using System.ComponentModel.DataAnnotations;
+using TraineeManagement.Models;
 
 namespace  TraineeManagement.Models.DTOs
 {
     public class UpdateTraineeRequest
     {
-        // [Required(ErrorMessage ="First Name is required")]
+        [Required(ErrorMessage ="First Name is required")]
         [MaxLength(50)]
-        public string? FirstName { get; set; }
-        // [Required(ErrorMessage ="Last Name is required")]
+        public required string FirstName { get; set; }
+        [Required(ErrorMessage ="Last Name is required")]
         [MaxLength(50)]
-        public string? LastName { get; set; }
-        // [Required(ErrorMessage ="Email Address is required")]
+        public required string LastName { get; set; }
+        [Required(ErrorMessage ="Email Address is required")]
         [EmailAddress]
-        public string? Email { get; set; }
-        // [Required]
-        public string? TechStack { get; set; }
-        // [Required]
+        public required string Email { get; set; }
+        [Required]
+        public required string TechStack { get; set; }
+        [Required]
         // [AllowedValues("Available","Do not disturb","Busy","Appear away",ErrorMessage = "Status must be from the given values Available, Do not disturb, Busy, Appear away ")]
-        public string? Status { get; set; }
+        public TraineeStatus Status { get; set; }
 
     }    
 }

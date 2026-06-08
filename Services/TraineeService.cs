@@ -73,23 +73,14 @@ namespace TraineeManagement.Services
         public async Task<Trainee?> Update(int id, UpdateTraineeRequest dto)
         {
             Trainee? trainee = await _context.Trainees.FirstOrDefaultAsync(t => t.Id == id);
-
+            
             if (trainee == null) return null;
 
-            if (!string.IsNullOrWhiteSpace(dto.FirstName))
-                trainee.FirstName = dto.FirstName;
-
-            if (!string.IsNullOrWhiteSpace(dto.LastName))
-                trainee.LastName = dto.LastName;
-
-            if (!string.IsNullOrWhiteSpace(dto.Email))
-                trainee.Email = dto.Email;
-
-            if (!string.IsNullOrWhiteSpace(dto.TechStack))
-                trainee.TechStack = dto.TechStack;
-
-            if (!string.IsNullOrWhiteSpace(dto.Status))
-                trainee.Status = dto.Status;
+            trainee.FirstName = dto.FirstName;
+            trainee.LastName = dto.LastName;
+            trainee.Email = dto.Email;
+            trainee.TechStack = dto.TechStack;
+            trainee.Status = dto.Status;
 
             trainee.UpdatedDate = DateTime.UtcNow;
             await _context.SaveChangesAsync();

@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using TraineeManagement.Models;
 
 namespace  TraineeManagement.Models.DTOs
 {
@@ -16,8 +17,8 @@ namespace  TraineeManagement.Models.DTOs
         [Required]
         public string? TechStack { get; set; }
         [Required]
-        [AllowedValues("Available","Do not disturb","Busy","Appear away",ErrorMessage = "Status must be from the given values Available, Do not disturb, Busy, Appear away ")]
-        public string? Status { get; set; }
+        // [AllowedValues("Available","Do not disturb","Busy","Appear away",ErrorMessage = "Status must be from the given values Available, Do not disturb, Busy, Appear away ")]
+        public TraineeStatus Status { get; set; }
         public DateTime UpdatedDate { get; set; }
 
 
