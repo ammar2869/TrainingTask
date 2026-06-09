@@ -25,8 +25,11 @@ namespace TraineeManagement.Services
                         t.LastName.ToLower().Contains(search) ||
                         t.Email.ToLower().Contains(search) ||
                         t.TechStack.ToLower().Contains(search));
-
             }
+            query = query
+                    .OrderBy(t => t.FirstName)
+                    .ThenBy(t => t.LastName);
+
             return await query.ToListAsync();
         }
 
