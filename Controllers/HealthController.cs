@@ -7,7 +7,7 @@ namespace TraineeManagement.Controllers;
 public class HealthController : ControllerBase
 {
     [HttpGet]
-    public IActionResult Get()
+    public async Task<IActionResult> Get()
     {
         return Ok(new
         {
