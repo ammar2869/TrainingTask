@@ -7,7 +7,7 @@ namespace TraineeManagement.Services
     public interface ITraineeService
     {
         // Task<List<Trainee>> GetAll();
-        Task<List<Trainee>> GetAll(string? search = null);
+        Task<List<Trainee>> GetAll(string? search = null, int pageNumber = 1, int pageSize = 10, bool ascending = true);
         Task<Trainee?> GetById(int id);
         Task<Trainee> Create(CreateTraineeRequest dto);
         Task<Trainee?> Update(int id, UpdateTraineeRequest dto);

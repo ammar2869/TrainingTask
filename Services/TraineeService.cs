@@ -13,7 +13,7 @@ namespace TraineeManagement.Services
             _context = context;
         }
 
-        public async Task<List<Trainee>> GetAll(string? search = null)
+        public async Task<List<Trainee>> GetAll(string? search = null, int pageNumber = 2, int pageSize = 10, bool ascending = true)
         {
             IQueryable<Trainee> query = _context.Trainees.AsQueryable();
             if (!string.IsNullOrWhiteSpace(search))
@@ -29,6 +29,10 @@ namespace TraineeManagement.Services
             query = query
                     .OrderBy(t => t.FirstName)
                     .ThenBy(t => t.LastName);
+
+            query = query
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize);
 
             return await query.ToListAsync();
         }

@@ -17,9 +17,9 @@ namespace TraineeManagement.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll([FromQuery] string? search)
+        public async Task<IActionResult> GetAll([FromQuery] string? search, int pageNumber, int pageSize, bool ascending)
         {
-            List<Trainee> trainees = await _service.GetAll(search);
+            List<Trainee> trainees = await _service.GetAll(search,pageNumber,pageSize,ascending);
 
             return Ok(trainees);
         }
