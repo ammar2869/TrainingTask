@@ -2,7 +2,7 @@
  
 ## Tech Stack
 - Framework : .NET 10 / ASP.NET Core
-- Database : Entity Framework Core In Memory Database
+- Database : MySql Database
 - API Documentation : Swagger
 - Language : C#
  
@@ -115,7 +115,6 @@ Success Response for PUT and GET Trainee by ID
 }
 ```
 ## Limitations
-- Uses EF Core InMemory Database (data resets on restart)
 - Limited Validation Rules
 - API Security isn't been implemented
 
