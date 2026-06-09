@@ -17,8 +17,15 @@ builder.Services.AddControllers()
     });
 builder.Services.AddScoped<ITraineeService, TraineeService>();
 
+// builder.Services.AddDbContext<AppDbContext>(options =>
+//     options.UseInMemoryDatabase("TraineeManagementDb"));
+
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseInMemoryDatabase("TraineeManagementDb"));
+    options.UseMySql(
+        connectionString,
+        ServerVersion.AutoDetect(connectionString)
+    ));
 
 var app = builder.Build();
 

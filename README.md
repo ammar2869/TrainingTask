@@ -19,6 +19,37 @@
 |`PUT`|`/api/Trainee/{id}` | Update trainee  |
 |`DELETE`|`/api/Trainee/{id}` | Delete trainee  |
 
+## Database Setup (MySQL)
+
+1. Install MySql Server
+```
+sudo apt install mysql-server -y
+```
+
+2. Start MySql Server
+```
+sudo service mysql start
+```
+3. Run the server
+```
+mysql -u root -p
+```
+
+4. Update Connection String
+Edit your appsettings.json
+```
+"ConnectionStrings": {
+  "DefaultConnection": "server=localhost;port=3306;database=TraineeDB;user=root;password=yourpassword"
+}
+```
+
+5. Install Required Packages
+```
+dotnet add package Pomelo.EntityFrameworkCore.MySql
+dotnet add package Microsoft.EntityFrameworkCore.Design
+dotnet add package Microsoft.EntityFrameworkCore.Tools
+```
+
 ## How to Run
 1. Clone the Github Repo
 ```bash
