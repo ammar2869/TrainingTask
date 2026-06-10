@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using TraineeManagement.Models.Enum;
 
 namespace TraineeManagement.Models
 {
@@ -15,7 +16,7 @@ namespace TraineeManagement.Models
         [Required]
         public string PasswordHash {get; set;} = string.Empty;
         [Required]
-        public string Role {get; set;} = "Trainee";
+        public UserRole  Role {get; set;} = UserRole.Trainee;
 
         public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
 
