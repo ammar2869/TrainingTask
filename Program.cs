@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using TraineeManagement.Data;
 using TraineeManagement.Services;
 using System.Text.Json.Serialization;
+using TraineeManagement.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -46,5 +47,25 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+
+    if (!db.Users.Any())
+    {
+        db.Users.Add(new User
+        {
+            Username = "admin",
+            Email = "admin@test.com",
+            PasswordHash = BCrypt.Net.BCrypt.HashPassword("Admin@123"),
+            Role = "Admin",
+            CreatedDate = DateTime.UtcNow,
+            UpdatedDate = DateTime.UtcNow
+        });
+
+        db.SaveChanges();
+    }
+}
 
 app.Run();
