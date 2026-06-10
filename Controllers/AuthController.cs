@@ -4,6 +4,7 @@ using TraineeManagement.Data;
 using TraineeManagement.Models.DTOs;
 using TraineeManagement.Services;
 using TraineeManagement.Models.DTOs.User;
+using TraineeManagement.Models.Entities;
 
 namespace TraineeManagement.Controllers
 {
@@ -35,7 +36,7 @@ namespace TraineeManagement.Controllers
                 });
             }
 
-            var user = await _context.Users.FirstOrDefaultAsync(u =>
+            User? user = await _context.Users.FirstOrDefaultAsync(u =>
                 u.Username == request.Username);
 
             if (user == null)
@@ -60,9 +61,9 @@ namespace TraineeManagement.Controllers
                 });
             }
 
-            var token = _jwtService.GenerateToken(user);
+            string token = _jwtService.GenerateToken(user);
 
-            var expiryMinutes = Convert.ToDouble(
+            double expiryMinutes = Convert.ToDouble(
                 _configuration["Jwt:ExpiryMinutes"]
             );
 

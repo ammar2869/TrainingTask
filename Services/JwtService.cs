@@ -17,28 +17,28 @@ namespace TraineeManagement.Services
 
         public string GenerateToken(User user)
         {
-            var jwtSection = _configuration.GetSection("Jwt");
+            IConfigurationSection jwtSection = _configuration.GetSection("Jwt");
 
-            var claims = new[]
+            Claim[] claims = new[]
             {
                 new Claim("UserId", user.Id.ToString()),
                 new Claim(ClaimTypes.Name, user.Username),
                 new Claim(ClaimTypes.Role, user.Role.ToString())
             };
 
-            var key = new SymmetricSecurityKey(
+            SymmetricSecurityKey key = new SymmetricSecurityKey(
                 Encoding.UTF8.GetBytes(jwtSection["Key"]!)
             );
 
-            var credentials = new SigningCredentials(
+            SigningCredentials credentials = new SigningCredentials(
                 key,
                 SecurityAlgorithms.HmacSha256
             );
 
-            var expiryMinutes =
+            double expiryMinutes =
                 Convert.ToDouble(jwtSection["ExpiryMinutes"]);
 
-            var token = new JwtSecurityToken(
+            JwtSecurityToken token = new JwtSecurityToken(
                 issuer: jwtSection["Issuer"],
                 audience: jwtSection["Audience"],
                 claims: claims,
