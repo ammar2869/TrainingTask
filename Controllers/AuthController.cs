@@ -5,6 +5,7 @@ using TraineeManagement.Models.DTOs;
 using TraineeManagement.Services;
 using TraineeManagement.Models.DTOs.User;
 using TraineeManagement.Models.Entities;
+using TraineeManagement.Helpers;
 
 namespace TraineeManagement.Controllers
 {
@@ -16,7 +17,7 @@ namespace TraineeManagement.Controllers
         private readonly IConfiguration _configuration;
         private readonly JwtService _jwtService;
 
-        public AuthController(AppDbContext context,IConfiguration configuration,JwtService jwtService)
+        public AuthController(AppDbContext context, IConfiguration configuration, JwtService jwtService)
         {
             _context = context;
             _configuration = configuration;
@@ -27,51 +28,40 @@ namespace TraineeManagement.Controllers
         [Route("login")]
         public async Task<IActionResult> Login(LoginRequestDto request)
         {
-            if (string.IsNullOrWhiteSpace(request.Username) ||
-                string.IsNullOrWhiteSpace(request.Password))
+            if (AuthHelper.IsLoginRequestInvalid(request, out string validationMessage))
             {
                 return BadRequest(new
                 {
-                    message = "Username and password are required"
+                    message = validationMessage
                 });
             }
 
-            User? user = await _context.Users.FirstOrDefaultAsync(u =>
-                u.Username == request.Username);
+            User? user = await _context.Users.FirstOrDefaultAsync(u => u.Username == request.Username);
 
-            if (user == null)
+            if (AuthHelper.IsUserInvalid(user, out string userMessage))
             {
                 return Unauthorized(new
                 {
-                    message = "Invalid username or password"
+                    message = userMessage
                 });
             }
 
-            bool isPasswordValid =
-                BCrypt.Net.BCrypt.Verify(
-                    request.Password,
-                    user.PasswordHash
-                );
-
-            if (!isPasswordValid)
+            if (AuthHelper.IsPasswordInvalid(request.Password, user!.PasswordHash, out string passwordMessage))
             {
                 return Unauthorized(new
                 {
-                    message = "Invalid username or password"
+                    message = passwordMessage
                 });
             }
 
             string token = _jwtService.GenerateToken(user);
 
-            double expiryMinutes = Convert.ToDouble(
-                _configuration["Jwt:ExpiryMinutes"]
-            );
+            double expiryMinutes = Convert.ToDouble(_configuration["Jwt:ExpiryMinutes"]);
 
             return Ok(new LoginResponseDto
             {
                 Token = token,
                 ExpiresIn = (int)(expiryMinutes * 60),
-
                 User = new
                 {
                     user.Id,
