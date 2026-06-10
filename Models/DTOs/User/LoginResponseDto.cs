@@ -1,4 +1,4 @@
-namespace TraineeManagement.Models.DTOs
+namespace TraineeManagement.Models.DTOs.User
 {
     public class LoginResponseDto
     {

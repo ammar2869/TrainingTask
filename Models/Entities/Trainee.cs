@@ -1,4 +1,6 @@
-namespace TraineeManagement.Models
+using TraineeManagement.Models.Enums;
+
+namespace TraineeManagement.Models.Entities
 {
     public class Trainee
     {

@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace TraineeManagement.Models.DTOs
+namespace TraineeManagement.Models.DTOs.User
 {
     public class LoginRequestDto
     {

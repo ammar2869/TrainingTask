@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
-using TraineeManagement.Models;
-using TraineeManagement.Models.DTOs;
+using TraineeManagement.Models.Entities;
+using TraineeManagement.Models.DTOs.Trainee;
 using TraineeManagement.Services;
 
 namespace TraineeManagement.Controllers

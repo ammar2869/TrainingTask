@@ -1,7 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 using TraineeManagement.Models;
+using TraineeManagement.Models.Enums;
 
-namespace TraineeManagement.Models.DTOs
+namespace TraineeManagement.Models.DTOs.Trainee
 {
     public class CreateTraineeRequest
     {

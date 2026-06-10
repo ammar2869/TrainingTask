@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using TraineeManagement.Models;
+using TraineeManagement.Models.Entities;
 
 namespace TraineeManagement.Data
 {

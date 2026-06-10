@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using TraineeManagement.Data;
 using TraineeManagement.Models.DTOs;
 using TraineeManagement.Services;
+using TraineeManagement.Models.DTOs.User;
 
 namespace TraineeManagement.Controllers
 {

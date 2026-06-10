@@ -1,6 +1,7 @@
 using System.Runtime.CompilerServices;
-using TraineeManagement.Models;
+using TraineeManagement.Models.Entities;
 using TraineeManagement.Models.DTOs;
+using TraineeManagement.Models.DTOs.Trainee;
 
 namespace TraineeManagement.Services
 {

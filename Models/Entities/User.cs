@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
-using TraineeManagement.Models.Enum;
+using TraineeManagement.Models.Enums;
 
-namespace TraineeManagement.Models
+namespace TraineeManagement.Models.Entities
 {
     public class User
     {

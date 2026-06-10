@@ -1,4 +1,4 @@
-namespace TraineeManagement.Models.Enum
+namespace TraineeManagement.Models.Enums
 {
     public enum UserRole
     {

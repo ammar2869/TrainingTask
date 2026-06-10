@@ -1,4 +1,4 @@
-namespace TraineeManagement.Models
+namespace TraineeManagement.Models.Enums
 {
     public enum TraineeStatus
     {

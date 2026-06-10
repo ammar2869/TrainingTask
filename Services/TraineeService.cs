@@ -1,5 +1,5 @@
-using TraineeManagement.Models;
-using TraineeManagement.Models.DTOs;
+using TraineeManagement.Models.Entities;
+using TraineeManagement.Models.DTOs.Trainee;
 using TraineeManagement.Data;
 using Microsoft.EntityFrameworkCore;
 
