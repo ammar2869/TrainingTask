@@ -3,7 +3,7 @@ using TraineeManagement.Models.Entities;
 using TraineeManagement.Models.DTOs.Trainee;
 using TraineeManagement.Services;
 using Microsoft.AspNetCore.Authorization;
-
+using TraineeManagement.Models.Enums;
 namespace TraineeManagement.Controllers
 {
     [Authorize]
@@ -19,11 +19,11 @@ namespace TraineeManagement.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll([FromQuery] string? search, int pageNumber, int pageSize, bool ascending)
+        public async Task<IActionResult> GetAll([FromQuery] string? search,[FromQuery] TraineeStatus? status,[FromQuery] int pageNumber = 1,[FromQuery] int pageSize = 10)
         {
-            List<Trainee> trainees = await _service.GetAll(search,pageNumber,pageSize,ascending);
+            var result = await _service.GetAll(search, status, pageNumber, pageSize);
 
-            return Ok(trainees);
+            return Ok(result);
         }
 
         [HttpGet("{id:int}")]

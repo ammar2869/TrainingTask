@@ -1,6 +1,6 @@
 using System.Runtime.CompilerServices;
 using TraineeManagement.Models.Entities;
-using TraineeManagement.Models.DTOs;
+using TraineeManagement.Models.Enums;
 using TraineeManagement.Models.DTOs.Trainee;
 
 namespace TraineeManagement.Services
@@ -8,7 +8,7 @@ namespace TraineeManagement.Services
     public interface ITraineeService
     {
         // Task<List<Trainee>> GetAll();
-        Task<List<Trainee>> GetAll(string? search = null, int pageNumber = 1, int pageSize = 10, bool ascending = true);
+        Task<PagedResponse<Trainee>> GetAll(string? search = null,TraineeStatus? status = null,int pageNumber = 1,int pageSize = 10);
         Task<Trainee?> GetById(int id);
         Task<Trainee> Create(CreateTraineeRequest dto);
         Task<Trainee?> Update(int id, UpdateTraineeRequest dto);

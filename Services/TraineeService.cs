@@ -1,5 +1,6 @@
 using TraineeManagement.Models.Entities;
 using TraineeManagement.Models.DTOs.Trainee;
+using TraineeManagement.Models.Enums;
 using TraineeManagement.Data;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,7 +14,7 @@ namespace TraineeManagement.Services
             _context = context;
         }
 
-        public async Task<List<Trainee>> GetAll(string? search = null, int pageNumber = 2, int pageSize = 10, bool ascending = true)
+        public async Task<PagedResponse<Trainee>> GetAll( string? search,TraineeStatus? status,int pageNumber = 1,int pageSize = 10)
         {
             IQueryable<Trainee> query = _context.Trainees.AsQueryable();
             if (!string.IsNullOrWhiteSpace(search))
@@ -21,20 +22,31 @@ namespace TraineeManagement.Services
                 search = search.ToLower();
 
                 query = query.Where(t =>
-                        t.FirstName.ToLower().Contains(search) ||
-                        t.LastName.ToLower().Contains(search) ||
-                        t.Email.ToLower().Contains(search) ||
-                        t.TechStack.ToLower().Contains(search));
+                    t.FirstName.ToLower().Contains(search) ||
+                    t.LastName.ToLower().Contains(search) ||
+                    t.Email.ToLower().Contains(search) ||
+                    t.TechStack.ToLower().Contains(search)
+                );
             }
-            query = query
-                    .OrderBy(t => t.FirstName)
-                    .ThenBy(t => t.LastName);
+            if (status.HasValue)
+            {
+                query = query.Where(t => t.Status==status.Value);
+            }
+            int totalRecords = await query.CountAsync();
+            query = query.OrderBy(t => t.FirstName).ThenBy(t => t.LastName);
 
-            query = query
+            var data = await query
                 .Skip((pageNumber - 1) * pageSize)
-                .Take(pageSize);
+                .Take(pageSize)
+                .ToListAsync();
 
-            return await query.ToListAsync();
+            return new PagedResponse<Trainee>
+            {
+                PageNumber = pageNumber,
+                PageSize = pageSize,
+                TotalRecords = totalRecords,
+                Data = data
+            };
         }
 
     
