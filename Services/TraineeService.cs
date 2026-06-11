@@ -9,9 +9,11 @@ namespace TraineeManagement.Services
     public class TraineeService : ITraineeService
     {
         private readonly AppDbContext _context;
-        public TraineeService(AppDbContext context)
+        private readonly ILogger<TraineeService> _logger;
+        public TraineeService(AppDbContext context, ILogger<TraineeService> logger)
         {
             _context = context;
+            _logger = logger;
         }
 
         public async Task<PagedResponse<Trainee>> GetAll( string? search,TraineeStatus? status,int pageNumber = 1,int pageSize = 10)
@@ -52,7 +54,12 @@ namespace TraineeManagement.Services
     
         public async Task<Trainee?> GetById(int id)
         {
-            return await _context.Trainees.FirstOrDefaultAsync(t => t.Id == id);
+            Trainee? trainee = await _context.Trainees.FirstOrDefaultAsync(t => t.Id == id);
+            if (trainee == null)
+            {
+                _logger.LogWarning("Trainee not found with Id: {TraineeId}", id);
+            }
+            return trainee;
         }
 
         public async Task<Trainee> Create(CreateTraineeRequest dto)
@@ -70,6 +77,14 @@ namespace TraineeManagement.Services
                 CreatedDate = DateTime.UtcNow,
                 UpdatedDate = DateTime.UtcNow
             };
+
+            _logger.LogInformation(
+                    "Trainee created with Id: {TraineeId}, Email: {Email}, Status: {Status}",
+                    trainee.Id,
+                    trainee.Email,
+                    trainee.Status
+                );
+
 
             await _context.Trainees.AddAsync(trainee);
             await _context.SaveChangesAsync();
@@ -93,15 +108,26 @@ namespace TraineeManagement.Services
         {
             Trainee? trainee = await _context.Trainees.FirstOrDefaultAsync(t => t.Id == id);
             
-            if (trainee == null) return null;
-
+            if (trainee == null) 
+            {
+                _logger.LogWarning("Update failed - Trainee not found with Id: {TraineeId}", id);
+                return null;
+            }
             trainee.FirstName = dto.FirstName;
             trainee.LastName = dto.LastName;
             trainee.Email = dto.Email;
             trainee.TechStack = dto.TechStack;
             trainee.Status = dto.Status;
-
             trainee.UpdatedDate = DateTime.UtcNow;
+
+            
+            _logger.LogInformation(
+                    "Trainee updated with Id: {TraineeId}, Email: {Email}, Status: {Status}",
+                    trainee.Id,
+                    trainee.Email,
+                    trainee.Status
+                );
+
             await _context.SaveChangesAsync();
             return trainee;
         }
@@ -111,8 +137,15 @@ namespace TraineeManagement.Services
             Trainee? trainee = await _context.Trainees.FirstOrDefaultAsync(t => t.Id == id);
 
             if (trainee == null)
+            {
+                _logger.LogWarning("Delete failed - Trainee not found with Id: {TraineeId}", id);
                 return false;
+            }
 
+            _logger.LogInformation(
+                    "Trainee deleted with Id: {TraineeId}, Email: {Email}",
+                    trainee.Id,trainee.Email);
+    
             _context.Trainees.Remove(trainee);
             await _context.SaveChangesAsync();
             return true;

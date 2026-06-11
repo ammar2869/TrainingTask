@@ -9,10 +9,12 @@ namespace TraineeManagement.Services
     public class JwtService
     {
         private readonly IConfiguration _configuration;
+        private readonly ILogger<JwtService> _logger;
 
-        public JwtService(IConfiguration configuration)
+        public JwtService(IConfiguration configuration, ILogger<JwtService> logger)
         {
             _configuration = configuration;
+            _logger = logger;
         }
 
         public string GenerateToken(User user)
@@ -44,6 +46,11 @@ namespace TraineeManagement.Services
                 claims: claims,
                 expires: DateTime.UtcNow.AddMinutes(expiryMinutes),
                 signingCredentials: credentials
+            );
+
+            _logger.LogInformation(
+                "JWT token generated for UserId: {UserId}",
+                user.Id
             );
 
             return new JwtSecurityTokenHandler().WriteToken(token);

@@ -30,29 +30,30 @@ namespace TraineeManagement.Controllers
         [Route("login")]
         public async Task<IActionResult> Login(LoginRequestDto request)
         {
-            if (AuthHelper.IsLoginRequestInvalid(request, out string validationMessage))
+            if (AuthHelper.IsLoginRequestInvalid(request))
             {
                 return BadRequest(new
                 {
-                    message = validationMessage
+                    message = "Username or Password missing"
                 });
             }
 
-            User? user = await _context.Users.FirstOrDefaultAsync(u => u.Username == request.Username);
+            User? user = await _context.Users
+                .FirstOrDefaultAsync(u => u.Username == request.Username);
 
-            if (AuthHelper.IsUserInvalid(user, out string userMessage))
+            if (AuthHelper.IsUserInvalid(user))
             {
                 return Unauthorized(new
                 {
-                    message = userMessage
+                    message = "Invalid User"
                 });
             }
 
-            if (AuthHelper.IsPasswordInvalid(request.Password, user!.PasswordHash, out string passwordMessage))
+            if (AuthHelper.IsPasswordInvalid(request.Password, user!.PasswordHash))
             {
                 return Unauthorized(new
                 {
-                    message = passwordMessage
+                    message = "Invalid Password"
                 });
             }
 

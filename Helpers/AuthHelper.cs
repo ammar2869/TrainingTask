@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Logging;
 using TraineeManagement.Models.DTOs.User;
 using TraineeManagement.Models.Entities;
 
@@ -5,48 +6,52 @@ namespace TraineeManagement.Helpers
 {
     public static class AuthHelper
     {
-        public static bool IsLoginRequestInvalid(LoginRequestDto request, out string message)
+        private static readonly ILogger _logger =
+            LoggerFactory.Create(builder => builder.AddDebug().AddConsole())
+                         .CreateLogger("AuthHelper");
+
+        public static bool IsLoginRequestInvalid(LoginRequestDto request)
         {
             if (request == null)
             {
-                message = "Request body is required";
+                _logger.LogWarning("Request is null");
                 return true;
             }
 
             if (string.IsNullOrWhiteSpace(request.Username) ||
                 string.IsNullOrWhiteSpace(request.Password))
             {
-                message = "Username and password are required";
+                _logger.LogWarning("Username or Password missing");
                 return true;
             }
 
-            message = string.Empty;
+            _logger.LogInformation("Login request valid for username: {Username}", request.Username);
             return false;
         }
 
-        public static bool IsUserInvalid(User? user, out string message)
+        public static bool IsUserInvalid(User? user)
         {
             if (user == null)
             {
-                message = "Invalid username or password";
+                _logger.LogWarning("User not found");
                 return true;
             }
 
-            message = string.Empty;
+            _logger.LogInformation("User found: {Username}", user.Username);
             return false;
         }
 
-        public static bool IsPasswordInvalid(string enteredPassword, string storedPasswordHash, out string message)
+        public static bool IsPasswordInvalid(string enteredPassword, string storedPasswordHash)
         {
-            bool isPasswordValid = BCrypt.Net.BCrypt.Verify(enteredPassword, storedPasswordHash);
+            bool isValid = BCrypt.Net.BCrypt.Verify(enteredPassword, storedPasswordHash);
 
-            if (!isPasswordValid)
+            if (!isValid)
             {
-                message = "Invalid username or password";
+                _logger.LogWarning("Invalid password attempt");
                 return true;
             }
 
-            message = string.Empty;
+            _logger.LogInformation("Password verified successfully");
             return false;
         }
     }
