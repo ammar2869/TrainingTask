@@ -1,7 +1,8 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace TraineeManagement.Controllers;
-
+[AllowAnonymous]
 [ApiController]
 [Route("api/[controller]")]
 public class HealthController : ControllerBase

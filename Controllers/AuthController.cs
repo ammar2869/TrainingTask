@@ -6,9 +6,11 @@ using TraineeManagement.Services;
 using TraineeManagement.Models.DTOs.User;
 using TraineeManagement.Models.Entities;
 using TraineeManagement.Helpers;
+using Microsoft.AspNetCore.Authorization;
 
 namespace TraineeManagement.Controllers
 {
+    [AllowAnonymous]
     [ApiController]
     [Route("api/[controller]")]
     public class AuthController : ControllerBase
