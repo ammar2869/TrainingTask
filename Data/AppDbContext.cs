@@ -15,6 +15,7 @@ namespace TraineeManagement.Data
 
         public DbSet<User> Users { get; set; }
 
+        public DbSet<Mentor> Mentors {get; set;}
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>(entity =>
@@ -22,15 +23,28 @@ namespace TraineeManagement.Data
                 entity.HasIndex(u => u.Username)
                       .IsUnique();
 
-                entity.Property(u => u.Role)
-                      .HasConversion<string>();
+                entity.Property(u => u.Role).HasConversion<string>();
 
-                entity.Property(u => u.CreatedDate)
-                      .HasDefaultValueSql("CURRENT_TIMESTAMP");
+                // entity.Property(u => u.CreatedDate)
+                //       .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
-                entity.Property(u => u.UpdatedDate)
-                      .HasDefaultValueSql("CURRENT_TIMESTAMP");
+                // entity.Property(u => u.UpdatedDate)
+                //       .HasDefaultValueSql("CURRENT_TIMESTAMP");
             });
+
+            modelBuilder.Entity<Mentor>(entity =>
+            {
+                entity.HasIndex(m => m.Email).IsUnique();
+
+                // entity.Property(u => u.CreatedDate)
+                //     .HasDefaultValueSql("CURRENT_TIMESTAMP")
+                //     .ValueGeneratedOnAdd();
+
+                // entity.Property(u => u.UpdatedDate)
+                //     .HasDefaultValueSql("CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
+                //     .ValueGeneratedOnAddOrUpdate();
+            });
+                
 
             base.OnModelCreating(modelBuilder);
         }
