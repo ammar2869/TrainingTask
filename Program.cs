@@ -3,6 +3,7 @@ using TraineeManagement.Data;
 using TraineeManagement.Services;
 using System.Text.Json.Serialization;
 using TraineeManagement.Models.Entities;
+using TraineeManagement.Services.LearningTasks;
 using TraineeManagement.Models.Enums;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -23,6 +24,7 @@ builder.Services.AddCors(options =>
     });
 });
 builder.Services.AddScoped<IMentorService, MentorService>();
+builder.Services.AddScoped<ILearningTaskService, LearningTaskService>();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>

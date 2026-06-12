@@ -16,6 +16,7 @@ namespace TraineeManagement.Data
         public DbSet<User> Users { get; set; }
 
         public DbSet<Mentor> Mentors {get; set;}
+        public DbSet<LearningTask> LearningTasks { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>(entity =>
@@ -44,7 +45,7 @@ namespace TraineeManagement.Data
                 //     .HasDefaultValueSql("CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
                 //     .ValueGeneratedOnAddOrUpdate();
             });
-                
+            
 
             base.OnModelCreating(modelBuilder);
         }

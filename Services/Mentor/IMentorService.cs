@@ -13,6 +13,6 @@ namespace TraineeManagement.Services
         Task<Mentor> Create(CreateMentorDto dto);
         Task<Mentor?> Update(int id, UpdateMentorDto dto);
         Task<bool> Delete(int id);
-        MentorResponse GetResponseData(Mentor trainee);
+        MentorResponse GetResponseData(Mentor mentor);
     }
 }

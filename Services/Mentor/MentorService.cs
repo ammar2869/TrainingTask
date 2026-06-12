@@ -92,15 +92,15 @@ namespace TraineeManagement.Services
             return mentor;
         }
 
-        public MentorResponse GetResponseData(Mentor trainee)
+        public MentorResponse GetResponseData(Mentor mentor)
         {
             MentorResponse dto = new MentorResponse();
-            dto.FirstName = trainee.FirstName;
-            dto.LastName = trainee.LastName;
-            dto.Email = trainee.Email;
-            dto.Expertise = trainee.Expertise;
-            dto.Status = trainee.Status;
-            dto.UpdatedDate = trainee.UpdatedDate;
+            dto.FirstName = mentor.FirstName;
+            dto.LastName = mentor.LastName;
+            dto.Email = mentor.Email;
+            dto.Expertise = mentor.Expertise;
+            dto.Status = mentor.Status;
+            dto.UpdatedDate = mentor.UpdatedDate;
 
             return dto;
         }
